@@ -5,141 +5,127 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Student Business Club</title>
   <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    .fade-section { opacity: 0; transition: opacity 0.5s ease-in; }
+    .fade-section.visible { opacity: 1; }
+  </style>
 </head>
 <body class="bg-gray-900 text-gray-100 overflow-x-hidden">
 
   <!-- Navbar -->
-  <nav class="fixed top-0 left-0 w-full bg-gray-950 bg-opacity-90 backdrop-blur-md shadow-md z-40">
-    <div class="max-w-6xl mx-auto flex justify-between items-center px-6 py-3">
-      <h1 class="text-lg md:text-xl font-bold text-blue-400">Student Business Club</h1>
-      <ul class="flex space-x-4 text-sm md:text-base">
-        <li><a href="#home" class="hover:text-blue-400 transition">Home</a></li>
-        <li><a href="#about" class="hover:text-blue-400 transition">About Us</a></li>
-        <li><a href="#order" class="hover:text-blue-400 transition">Order</a></li>
-        <li><a href="#contact" class="hover:text-blue-400 transition">Contact Us</a></li>
-      </ul>
+  <nav class="w-full flex justify-between items-center p-4 bg-gray-800 fixed top-0 z-50">
+    <div class="text-xl font-bold">Student Business Club</div>
+    <div class="space-x-4">
+      <a href="#home" class="hover:text-blue-400">Home</a>
+      <a href="#about" class="hover:text-blue-400">About Us</a>
+      <a href="#order" class="hover:text-blue-400">Order</a>
+      <a href="#contact" class="hover:text-blue-400">Contact Us</a>
     </div>
   </nav>
 
-  <!-- Spacer to prevent navbar overlap -->
-  <div class="h-16"></div>
-
-  <!-- Modal -->
-  <div id="modal" class="fixed inset-0 hidden items-center justify-center bg-black bg-opacity-70 z-50">
-    <div class="bg-gray-800 rounded-xl shadow-lg p-6 text-center w-80 border border-gray-700">
-      <h2 id="modal-title" class="text-xl font-bold mb-2"></h2>
-      <p id="modal-message" class="text-sm text-gray-400 mb-4"></p>
-      <button onclick="closeModal()" class="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700">OK</button>
-    </div>
-  </div>
-
   <!-- Home Section -->
-  <section id="home" class="h-screen flex flex-col justify-center items-center bg-gradient-to-b from-blue-800 to-gray-900 text-center px-4">
-    <h1 class="text-4xl font-bold mb-4 text-white">Welcome to the Student Business Club</h1>
-    <p class="text-lg mb-6 max-w-md text-gray-300">Empowering students to grow, lead, and succeed in business through teamwork and innovation.</p>
-    <button onclick="scrollToSection('order')" class="bg-white text-blue-700 font-semibold px-6 py-3 rounded-md hover:bg-gray-200 transition">Order Now</button>
+  <section id="home" class="min-h-screen flex items-center justify-center p-6 fade-section visible">
+    <div class="text-center">
+      <h1 class="text-4xl font-bold mb-4">Welcome to the Student Business Club</h1>
+      <p class="mb-6">We offer high-quality products made by our students.</p>
+      <a href="#order" class="px-6 py-3 bg-blue-700 rounded hover:bg-blue-800">Order Now</a>
+    </div>
   </section>
 
   <!-- About Us Section -->
-  <section id="about" class="h-screen flex flex-col justify-center items-center bg-gray-800 text-center px-6">
-    <h2 class="text-3xl font-bold mb-4 text-blue-400">About Us</h2>
-    <p class="text-gray-300 max-w-md">
-      We are a student-led organization dedicated to nurturing future entrepreneurs. Through workshops,
-      mentorship, and projects, we create opportunities to learn real-world business skills.
-    </p>
+  <section id="about" class="min-h-screen flex items-center justify-center p-6 fade-section">
+    <div class="max-w-2xl text-center">
+      <h2 class="text-3xl font-bold mb-4">About Us</h2>
+      <p>Our club helps students learn entrepreneurship by creating and selling products such as liquid soap, bread, and bracelets. We focus on teamwork, creativity, and social responsibility.</p>
+    </div>
   </section>
 
   <!-- Order Section -->
-  <section id="order" class="h-screen flex flex-col justify-center items-center bg-gray-900 px-6">
-    <h2 class="text-3xl font-bold mb-6 text-blue-400">Place Your Order</h2>
-    <form id="orderForm" class="w-full max-w-sm bg-gray-800 p-6 rounded-lg shadow-lg space-y-4 border border-gray-700">
-      <input type="text" id="name" name="name" placeholder="Your Name" class="w-full bg-gray-900 border border-gray-700 rounded-md p-2 text-gray-100 focus:outline-blue-500" required>
-      <input type="email" id="email" name="email" placeholder="Your Email" class="w-full bg-gray-900 border border-gray-700 rounded-md p-2 text-gray-100 focus:outline-blue-500" required>
-      <textarea id="orderDetails" name="orderDetails" rows="3" placeholder="Order Details" class="w-full bg-gray-900 border border-gray-700 rounded-md p-2 text-gray-100 focus:outline-blue-500" required></textarea>
-      <button type="submit" class="w-full bg-blue-600 text-white py-2 rounded-md font-semibold hover:bg-blue-700">Send Order</button>
+  <section id="order" class="min-h-screen w-full flex flex-col justify-center items-center p-6 fade-section pt-24">
+    <h2 class="text-3xl font-bold mb-6">Order</h2>
+
+    <form id="orderForm" class="w-full max-w-md space-y-4 bg-gray-800 p-6 rounded-xl">
+      <input type="text" name="name" placeholder="Your Name" class="w-full p-3 rounded bg-gray-700" required />
+      <input type="email" name="email" placeholder="Email Address" class="w-full p-3 rounded bg-gray-700" required />
+      <input type="tel" name="tel" placeholder="Phone Number" class="w-full p-3 rounded bg-gray-700" required />
+
+      <label class="block text-lg font-semibold mt-4">Products</label>
+      <select id="productSelect" multiple class="w-full p-2 rounded bg-gray-700">
+        <option value="soap">Liquid Soap</option>
+        <option value="bracelets">Bracelets</option>
+        <option value="bread">Bread</option>
+      </select>
+
+      <!-- Dynamic Product Options -->
+      <div id="soapOptions" class="hidden fade-section mt-4 bg-gray-700 p-4 rounded">
+        <p class="font-semibold mb-2">Liquid Soap Quantity</p>
+        <label class="flex items-center space-x-2">
+          <input type="radio" name="soapSize" value="3L"> <span>3 Litres</span>
+        </label>
+        <input type="number" id="soapCount" placeholder="Number of containers" min="1" class="w-full p-2 rounded bg-gray-600 mt-2" />
+        <label class="flex items-center space-x-2 mt-3">
+          <input type="radio" name="soapSize" value="5L"> <span>5 Litres</span>
+        </label>
+        <input type="number" id="soapCount5" placeholder="Number of containers" min="1" class="w-full p-2 rounded bg-gray-600 mt-2" />
+      </div>
+
+      <div id="braceletsOptions" class="hidden fade-section mt-4 bg-gray-700 p-4 rounded">
+        <p class="font-semibold mb-2">Bracelets Quantity</p>
+        <input type="number" id="braceletsCount" placeholder="Number of bracelets" min="1" class="w-full p-2 rounded bg-gray-600" />
+      </div>
+
+      <div id="breadOptions" class="hidden fade-section mt-4 bg-gray-700 p-4 rounded">
+        <p class="font-semibold mb-2">Bread Quantity</p>
+        <label class="flex items-center space-x-2">
+          <input type="radio" name="breadSize" value="10-pack"> <span>10-piece pack (small)</span>
+        </label>
+        <input type="number" id="breadCount10" placeholder="Number of packs" min="1" class="w-full p-2 rounded bg-gray-600 mt-2" />
+        <label class="flex items-center space-x-2 mt-3">
+          <input type="radio" name="breadSize" value="6-pack"> <span>6-piece pack (big)</span>
+        </label>
+        <input type="number" id="breadCount6" placeholder="Number of packs" min="1" class="w-full p-2 rounded bg-gray-600 mt-2" />
+      </div>
+
+      <div class="flex justify-between items-center mt-6">
+        <button type="button" id="confirmOrderBtn" class="px-4 py-2 bg-blue-700 rounded hover:bg-blue-800">Confirm Order</button>
+        <button type="submit" id="submitOrderBtn" class="px-4 py-2 bg-gray-500 rounded opacity-50 cursor-not-allowed" disabled>Submit</button>
+      </div>
     </form>
   </section>
 
-  <!-- Contact Section with form -->
-  <section id="contact" class="h-screen flex flex-col justify-center items-center bg-gradient-to-t from-blue-800 to-gray-900 text-center px-6">
-    <h2 class="text-3xl font-bold mb-6 text-white">Contact Us</h2>
-    <form id="contactForm" class="w-full max-w-sm bg-gray-800 p-6 rounded-lg shadow-lg space-y-4 border border-gray-700">
-      <input type="text" id="contactName" name="name" placeholder="Your Name" class="w-full bg-gray-900 border border-gray-700 rounded-md p-2 text-gray-100 focus:outline-blue-500" required>
-      <input type="email" id="contactEmail" name="email" placeholder="Your Email" class="w-full bg-gray-900 border border-gray-700 rounded-md p-2 text-gray-100 focus:outline-blue-500" required>
-      <textarea id="message" name="message" rows="3" placeholder="Your Message" class="w-full bg-gray-900 border border-gray-700 rounded-md p-2 text-gray-100 focus:outline-blue-500" required></textarea>
-      <button type="submit" class="w-full bg-blue-600 text-white py-2 rounded-md font-semibold hover:bg-blue-700">Send Message</button>
-    </form>
+  <section id="contact" class="min-h-screen flex items-center justify-center p-6 fade-section">
+    <div class="w-full max-w-md bg-gray-800 p-6 rounded-xl">
+      <h2 class="text-3xl font-bold mb-4">Contact Us</h2>
+      <form id="contactForm" class="space-y-4">
+        <input type="text" name="contactName" placeholder="Your Name" class="w-full p-3 rounded bg-gray-700" required />
+        <input type="email" name="contactEmail" placeholder="Email Address" class="w-full p-3 rounded bg-gray-700" required />
+        <textarea name="message" placeholder="Your Message" class="w-full p-3 rounded bg-gray-700" rows="4" required></textarea>
+        <button type="submit" class="w-full px-4 py-2 bg-blue-700 rounded hover:bg-blue-800">Send Message</button>
+      </form>
+    </div>
   </section>
 
-  <!-- JavaScript -->
   <script>
-    const webhookURL = "https://hook.make.com/your-webhook-id"; // Replace with your Make.com webhook
+    // Fade-in on scroll
+    const fadeSections = document.querySelectorAll('.fade-section');
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if(entry.isIntersecting) entry.target.classList.add('visible');
+      });
+    }, { threshold: 0.2 });
+    fadeSections.forEach(section => observer.observe(section));
 
-    function scrollToSection(id) {
-      document.getElementById(id).scrollIntoView({ behavior: 'smooth' });
-    }
+    // Show/hide product options
+    const productSelect = document.getElementById('productSelect');
+    const soapOptions = document.getElementById('soapOptions');
+    const braceletsOptions = document.getElementById('braceletsOptions');
+    const breadOptions = document.getElementById('breadOptions');
 
-    function showModal(title, message, success = true) {
-      const modal = document.getElementById("modal");
-      const titleEl = document.getElementById("modal-title");
-      const messageEl = document.getElementById("modal-message");
-
-      titleEl.textContent = title;
-      messageEl.textContent = message;
-      titleEl.className = success ? "text-green-400 font-bold text-xl mb-2" : "text-red-400 font-bold text-xl mb-2";
-
-      modal.classList.remove("hidden");
-      modal.classList.add("flex");
-    }
-
-    function closeModal() {
-      const modal = document.getElementById("modal");
-      modal.classList.add("hidden");
-      modal.classList.remove("flex");
-    }
-
-    async function sendDataToWebhook(formData) {
-      try {
-        const response = await fetch(webhookURL, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(formData),
-        });
-
-        const result = await response.json();
-
-        if (result.success) {
-          showModal("Success!", "Your message was successfully sent.", true);
-        } else {
-          showModal("Failed", "There was a problem sending your message. Please try again.", false);
-        }
-      } catch (error) {
-        showModal("Error", "Failed to connect to the server. Please try again later.", false);
-      }
-    }
-
-    document.getElementById("orderForm").addEventListener("submit", async (e) => {
-      e.preventDefault();
-      const formData = {
-        type: 'order',
-        name: e.target.name.value,
-        email: e.target.email.value,
-        orderDetails: e.target.orderDetails.value,
-      };
-      await sendDataToWebhook(formData);
-      e.target.reset();
-    });
-
-    document.getElementById("contactForm").addEventListener("submit", async (e) => {
-      e.preventDefault();
-      const formData = {
-        type: 'contact',
-        name: e.target.name.value,
-        email: e.target.email.value,
-        message: e.target.message.value,
-      };
-      await sendDataToWebhook(formData);
-      e.target.reset();
+    productSelect.addEventListener('change', () => {
+      const selected = Array.from(productSelect.selectedOptions).map(opt => opt.value);
+      soapOptions.classList.toggle('hidden', !selected.includes('soap'));
+      braceletsOptions.classList.toggle('hidden', !selected.includes('bracelets'));
+      breadOptions.classList.toggle('hidden', !selected.includes('bread'));
     });
   </script>
 </body>
