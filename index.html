@@ -8,6 +8,8 @@
   <style>
     .fade-section { opacity: 0; transition: opacity 0.5s ease-in; }
     .fade-section.visible { opacity: 1; }
+    .modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.7); justify-content: center; align-items: center; z-index: 1000; }
+    .modal-content { background: #1f2937; padding: 2rem; border-radius: 0.5rem; max-width: 400px; width: 90%; }
   </style>
 </head>
 <body class="bg-gray-900 text-gray-100 overflow-x-hidden">
@@ -50,13 +52,16 @@
       <input type="tel" name="tel" placeholder="Phone Number" class="w-full p-3 rounded bg-gray-700" required />
 
       <label class="block text-lg font-semibold mt-4">Products</label>
-      <select id="productSelect" multiple class="w-full p-2 rounded bg-gray-700">
-        <option value="soap">Liquid Soap</option>
-        <option value="bracelets">Bracelets</option>
-        <option value="bread">Bread</option>
-      </select>
+      <div class="space-y-2">
+        <label class="flex items-center space-x-2">
+          <input type="checkbox" id="productSoap"> <span>Liquid Soap</span>
+        </label>
+        <label class="flex items-center space-x-2">
+          <input type="checkbox" id="productBread"> <span>Bread</span>
+        </label>
+      </div>
 
-      <!-- Dynamic Product Options -->
+      <!-- Quantity Options -->
       <div id="soapOptions" class="hidden fade-section mt-4 bg-gray-700 p-4 rounded">
         <p class="font-semibold mb-2">Liquid Soap Quantity</p>
         <label class="flex items-center space-x-2">
@@ -67,11 +72,6 @@
           <input type="radio" name="soapSize" value="5L"> <span>5 Litres</span>
         </label>
         <input type="number" id="soapCount5" placeholder="Number of containers" min="1" class="w-full p-2 rounded bg-gray-600 mt-2" />
-      </div>
-
-      <div id="braceletsOptions" class="hidden fade-section mt-4 bg-gray-700 p-4 rounded">
-        <p class="font-semibold mb-2">Bracelets Quantity</p>
-        <input type="number" id="braceletsCount" placeholder="Number of bracelets" min="1" class="w-full p-2 rounded bg-gray-600" />
       </div>
 
       <div id="breadOptions" class="hidden fade-section mt-4 bg-gray-700 p-4 rounded">
@@ -91,6 +91,18 @@
         <button type="submit" id="submitOrderBtn" class="px-4 py-2 bg-gray-500 rounded opacity-50 cursor-not-allowed" disabled>Submit</button>
       </div>
     </form>
+
+    <!-- Modal -->
+    <div id="orderModal" class="modal flex">
+      <div class="modal-content">
+        <h3 class="text-xl font-bold mb-4">Confirm Your Order</h3>
+        <div id="orderSummary" class="mb-4"></div>
+        <div class="flex justify-between">
+          <button id="cancelOrder" class="px-4 py-2 bg-gray-600 rounded hover:bg-gray-700">Cancel</button>
+          <button id="submitOrder" class="px-4 py-2 bg-blue-700 rounded hover:bg-blue-800">Submit Order</button>
+        </div>
+      </div>
+    </div>
   </section>
 
   <section id="contact" class="min-h-screen flex items-center justify-center p-6 fade-section">
@@ -116,17 +128,43 @@
     fadeSections.forEach(section => observer.observe(section));
 
     // Show/hide product options
-    const productSelect = document.getElementById('productSelect');
+    const productSoap = document.getElementById('productSoap');
+    const productBread = document.getElementById('productBread');
     const soapOptions = document.getElementById('soapOptions');
-    const braceletsOptions = document.getElementById('braceletsOptions');
     const breadOptions = document.getElementById('breadOptions');
 
-    productSelect.addEventListener('change', () => {
-      const selected = Array.from(productSelect.selectedOptions).map(opt => opt.value);
-      soapOptions.classList.toggle('hidden', !selected.includes('soap'));
-      braceletsOptions.classList.toggle('hidden', !selected.includes('bracelets'));
-      breadOptions.classList.toggle('hidden', !selected.includes('bread'));
+    productSoap.addEventListener('change', () => soapOptions.classList.toggle('hidden', !productSoap.checked));
+    productBread.addEventListener('change', () => breadOptions.classList.toggle('hidden', !productBread.checked));
+
+    // Modal functionality
+    const confirmBtn = document.getElementById('confirmOrderBtn');
+    const modal = document.getElementById('orderModal');
+    const orderSummary = document.getElementById('orderSummary');
+    const cancelBtn = document.getElementById('cancelOrder');
+
+    confirmBtn.addEventListener('click', () => {
+      const name = document.querySelector('[name="name"]').value;
+      const email = document.querySelector('[name="email"]').value;
+      const tel = document.querySelector('[name="tel"]').value;
+
+      let summary = `<p><strong>Name:</strong> ${name}</p><p><strong>Email:</strong> ${email}</p><p><strong>Tel:</strong> ${tel}</p><hr class='my-2 border-gray-600'>`;
+      if(productSoap.checked){
+        const soap3 = document.getElementById('soapCount').value;
+        const soap5 = document.getElementById('soapCount5').value;
+        if(soap3) summary += `<p>Liquid Soap 3L: ${soap3} container(s)</p>`;
+        if(soap5) summary += `<p>Liquid Soap 5L: ${soap5} container(s)</p>`;
+      }
+      if(productBread.checked){
+        const bread10 = document.getElementById('breadCount10').value;
+        const bread6 = document.getElementById('breadCount6').value;
+        if(bread10) summary += `<p>Bread 10-piece pack: ${bread10} pack(s)</p>`;
+        if(bread6) summary += `<p>Bread 6-piece pack: ${bread6} pack(s)</p>`;
+      }
+      orderSummary.innerHTML = summary;
+      modal.style.display = 'flex';
     });
+
+    cancelBtn.addEventListener('click', () => modal.style.display='none');
   </script>
 </body>
 </html>
