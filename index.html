@@ -3,168 +3,281 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Student Business Club</title>
+  <title>Student Business Club - Order Now</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
-    .fade-section { opacity: 0; transition: opacity 0.5s ease-in; }
+    .fade-section { opacity: 0; transition: opacity 0.8s ease-in-out; }
     .fade-section.visible { opacity: 1; }
-    .modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.7); justify-content: center; align-items: center; z-index: 1000; }
-    .modal-content { background: #1f2937; padding: 2rem; border-radius: 0.5rem; max-width: 400px; width: 90%; }
+    .modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.9); justify-content: center; align-items: center; z-index: 1000; }
+    .modal-content { background: #1f2937; padding: 2rem; border-radius: 1rem; max-width: 550px; width: 90%; max-height: 90vh; overflow-y: auto; box-shadow: 0 20px 50px rgba(0,0,0,0.7); }
+    input:focus, textarea:focus { outline: 3px solid #60a5fa; }
+    ::-webkit-scrollbar { width: 8px; }
+    ::-webkit-scrollbar-track { background: #111; }
+    ::-webkit-scrollbar-thumb { background: #60a5fa; border-radius: 4px; }
   </style>
 </head>
-<body class="bg-gray-900 text-gray-100 overflow-x-hidden">
+<body class="bg-gray-900 text-gray-100 min-h-screen">
 
   <!-- Navbar -->
-  <nav class="w-full flex justify-between items-center p-4 bg-gray-800 fixed top-0 z-50">
-    <div class="text-xl font-bold">Student Business Club</div>
-    <div class="space-x-4">
-      <a href="#home" class="hover:text-blue-400">Home</a>
-      <a href="#about" class="hover:text-blue-400">About Us</a>
-      <a href="#order" class="hover:text-blue-400">Order</a>
-      <a href="#contact" class="hover:text-blue-400">Contact Us</a>
+  <nav class="w-full flex justify-between items-center p-5 bg-gray-800 fixed top-0 z-50 shadow-xl backdrop-blur-sm bg-opacity-90">
+    <div class="text-2xl font-bold text-blue-400">Student Business Club</div>
+    <div class="space-x-8 text-lg">
+      <a href="#home" class="hover:text-blue-400 transition">Home</a>
+      <a href="#about" class="hover:text-blue-400 transition">About</a>
+      <a href="#order" class="hover:text-blue-400 transition">Order</a>
+      <a href="#contact" class="hover:text-blue-400 transition">Contact</a>
     </div>
   </nav>
 
-  <!-- Home Section -->
+  <!-- Hero -->
   <section id="home" class="min-h-screen flex items-center justify-center p-6 fade-section visible">
-    <div class="text-center">
-      <h1 class="text-4xl font-bold mb-4">Welcome to the Student Business Club</h1>
-      <p class="mb-6">We offer high-quality products made by our students.</p>
-      <a href="#order" class="px-6 py-3 bg-blue-700 rounded hover:bg-blue-800">Order Now</a>
+    <div class="text-center max-w-4xl">
+      <h1 class="text-5xl md:text-7xl font-extrabold mb-6 bg-gradient-to-r from-blue-400 via-cyan-400 to-blue-500 bg-clip-text text-transparent">
+        Student Business Club
+      </h1>
+      <p class="text-xl md:text-2xl mb-10 text-gray-300">Handmade with love by students • Supporting real entrepreneurship</p>
+      <a href="#order" class="inline-block px-10 py-5 bg-blue-600 text-xl font-bold rounded-full hover:bg-blue-700 transform hover:scale-110 transition duration-300 shadow-2xl">
+        Order Products Now
+      </a>
     </div>
   </section>
 
-  <!-- About Us Section -->
-  <section id="about" class="min-h-screen flex items-center justify-center p-6 fade-section">
-    <div class="max-w-2xl text-center">
-      <h2 class="text-3xl font-bold mb-4">About Us</h2>
-      <p>Our club helps students learn entrepreneurship by creating and selling products such as liquid soap, bread, and bracelets. We focus on teamwork, creativity, and social responsibility.</p>
+  <!-- About -->
+  <section id="about" class="min-h-screen flex items-center justify-center p-8 fade-section">
+    <div class="max-w-4xl text-center">
+      <h2 class="text-5xl font-bold mb-8 text-blue-400">About Our Club</h2>
+      <p class="text-xl leading-relaxed text-gray-300">
+        We are a student-run business club that teaches entrepreneurship by making and selling real products: 
+        <strong>liquid soap</strong>, <strong>fresh bread</strong>, and more. Every order helps students learn real business skills!
+      </p>
     </div>
   </section>
 
-  <!-- Order Section -->
-  <section id="order" class="min-h-screen w-full flex flex-col justify-center items-center p-6 fade-section pt-24">
-    <h2 class="text-3xl font-bold mb-6">Order</h2>
+  <!-- Order Form -->
+  <section id="order" class="min-h-screen flex flex-col items-center justify-center p-6 fade-section pt-32">
+    <h2 class="text-5xl font-bold mb-12 text-blue-400">Place Your Order</h2>
 
-    <form id="orderForm" class="w-full max-w-md space-y-4 bg-gray-800 p-6 rounded-xl">
-      <input type="text" name="name" placeholder="Your Name" class="w-full p-3 rounded bg-gray-700" required />
-      <input type="email" name="email" placeholder="Email Address" class="w-full p-3 rounded bg-gray-700" required />
-      <input type="tel" name="tel" placeholder="Phone Number" class="w-full p-3 rounded bg-gray-700" required />
+    <form id="orderForm" class="w-full max-w-3xl bg-gray-800 p-10 rounded-3xl shadow-2xl border border-gray-700 space-y-8">
+      <!-- Customer Info -->
+      <div class="grid md:grid-cols-3 gap-6">
+        <input type="text" name="name" placeholder="Your Full Name" class="p-4 rounded-xl bg-gray-700 text-lg" required />
+        <input type="email" name="email" placeholder="Email Address" class="p-4 rounded-xl bg-gray-700 text-lg" required />
+        <input type="tel" name="tel" placeholder="Phone Number (e.g. 078...)" class="p-4 rounded-xl bg-gray-700 text-lg" required />
+      </div>
 
-      <label class="block text-lg font-semibold mt-4">Products</label>
-      <div class="space-y-2">
-        <label class="flex items-center space-x-2">
-          <input type="checkbox" id="productSoap"> <span>Liquid Soap</span>
+      <!-- Product Selection -->
+      <div class="space-y-6">
+        <p class="text-2xl font-bold text-blue-300">Choose Products</p>
+        
+        <label class="flex items-center space-x-4 text-xl bg-gray-700 p-4 rounded-xl cursor-pointer hover:bg-gray-600 transition">
+          <input type="checkbox" id="productSoap" class="w-6 h-6">
+          <span>Liquid Soap</span>
         </label>
-        <label class="flex items-center space-x-2">
-          <input type="checkbox" id="productBread"> <span>Bread</span>
+
+        <label class="flex items-center space-x-4 text-xl bg-gray-700 p-4 rounded-xl cursor-pointer hover:bg-gray-600 transition">
+          <input type="checkbox" id="productBread" class="w-6 h-6">
+          <span>Fresh Bread</span>
         </label>
       </div>
 
-      <!-- Quantity Options -->
-      <div id="soapOptions" class="hidden fade-section mt-4 bg-gray-700 p-4 rounded">
-        <p class="font-semibold mb-2">Liquid Soap Quantity</p>
-        <label class="flex items-center space-x-2">
-          <input type="radio" name="soapSize" value="3L"> <span>3 Litres</span>
-        </label>
-        <input type="number" id="soapCount" placeholder="Number of containers" min="1" class="w-full p-2 rounded bg-gray-600 mt-2" />
-        <label class="flex items-center space-x-2 mt-3">
-          <input type="radio" name="soapSize" value="5L"> <span>5 Litres</span>
-        </label>
-        <input type="number" id="soapCount5" placeholder="Number of containers" min="1" class="w-full p-2 rounded bg-gray-600 mt-2" />
+      <!-- Liquid Soap Options -->
+      <div id="soapOptions" class="hidden space-y-6 bg-gray-700 p-8 rounded-2xl border border-blue-500">
+        <h3 class="text-2xl font-bold text-blue-300">Liquid Soap</h3>
+        <div class="space-y-6">
+          <div>
+            <label class="flex justify-between items-center text-lg">
+              <div class="flex items-center space-x-3">
+                <input type="radio" name="soapSize" value="3L" class="w-5 h-5">
+                <span>3 Litres</span>
+              </div>
+              <span class="font-bold text-green-400">2,500 RWF</span>
+            </label>
+            <input type="number" id="soapCount3L" placeholder="How many containers?" min="1" class="hidden w-full mt-3 p-4 rounded-lg bg-gray-600" disabled />
+          </div>
+
+          <div>
+            <label class="flex justify-between items-center text-lg">
+              <div class="flex items-center space-x-3">
+                <input type="radio" name="soapSize" value="5L" class="w-5 h-5">
+                <span>5 Litres</span>
+              </div>
+              <span class="font-bold text-green-400">4,000 RWF</span>
+            </label>
+            <input type="number" id="soapCount5L" placeholder="How many containers?" min="1" class="hidden w-full mt-3 p-4 rounded-lg bg-gray-600" disabled />
+          </div>
+        </div>
       </div>
 
-      <div id="breadOptions" class="hidden fade-section mt-4 bg-gray-700 p-4 rounded">
-        <p class="font-semibold mb-2">Bread Quantity</p>
-        <label class="flex items-center space-x-2">
-          <input type="radio" name="breadSize" value="10-pack"> <span>10-piece pack (small)</span>
-        </label>
-        <input type="number" id="breadCount10" placeholder="Number of packs" min="1" class="w-full p-2 rounded bg-gray-600 mt-2" />
-        <label class="flex items-center space-x-2 mt-3">
-          <input type="radio" name="breadSize" value="6-pack"> <span>6-piece pack (big)</span>
-        </label>
-        <input type="number" id="breadCount6" placeholder="Number of packs" min="1" class="w-full p-2 rounded bg-gray-600 mt-2" />
+      <!-- Bread Options -->
+      <div id="breadOptions" class="hidden space-y-6 bg-gray-700 p-8 rounded-2xl border border-blue-500">
+        <h3 class="text-2xl font-bold text-blue-300">Fresh Bread</h3>
+        <div class="space-y-6">
+          <div>
+            <label class="flex justify-between items-center text-lg">
+              <div class="flex items-center space-x-3">
+                <input type="radio" name="breadSize" value="10pack" class="w-5 h-5">
+                <span>10-piece pack (small)</span>
+              </div>
+              <span class="font-bold text-green-400">1,500 RWF</span>
+            </label>
+            <input type="number" id="breadCount10" placeholder="How many packs?" min="1" class="hidden w-full mt-3 p-4 rounded-lg bg-gray-600" disabled />
+          </div>
+
+          <div>
+            <label class="flex justify-between items-center text-lg">
+              <div class="flex items-center space-x-3">
+                <input type="radio" name="breadSize" value="6pack" class="w-5 h-5">
+                <span>6-piece pack (large)</span>
+              </div>
+              <span class="font-bold text-green-400">2,000 RWF</span>
+            </label>
+            <input type="number" id="breadCount6" placeholder="How many packs?" min="1" class="hidden w-full mt-3 p-4 rounded-lg bg-gray-600" disabled />
+          </div>
+        </div>
       </div>
 
-      <div class="flex justify-between items-center mt-6">
-        <button type="button" id="confirmOrderBtn" class="px-4 py-2 bg-blue-700 rounded hover:bg-blue-800">Confirm Order</button>
-        <button type="submit" id="submitOrderBtn" class="px-4 py-2 bg-gray-500 rounded opacity-50 cursor-not-allowed" disabled>Submit</button>
-      </div>
+      <button type="button" id="confirmOrderBtn" class="w-full py-5 bg-gradient-to-r from-blue-600 to-cyan-600 text-2xl font-bold rounded-xl hover:from-blue-700 hover:to-cyan-700 transform hover:scale-105 transition duration-300 shadow-xl">
+        Review My Order
+      </button>
     </form>
 
-    <!-- Modal -->
-    <div id="orderModal" class="modal flex">
-      <div class="modal-content">
-        <h3 class="text-xl font-bold mb-4">Confirm Your Order</h3>
-        <div id="orderSummary" class="mb-4"></div>
-        <div class="flex justify-between">
-          <button id="cancelOrder" class="px-4 py-2 bg-gray-600 rounded hover:bg-gray-700">Cancel</button>
-          <button id="submitOrder" class="px-4 py-2 bg-blue-700 rounded hover:bg-blue-800">Submit Order</button>
+    <!-- Confirmation Modal -->
+    <div id="orderModal" class="modal">
+      <div class="modal-content text-gray-200">
+        <h3 class="text-3xl font-bold mb-6 text-blue-400 text-center">Confirm Your Order</h3>
+        <div id="orderSummary" class="space-y-4 text-lg"></div>
+        <div class="mt-8 pt-6 border-t-2 border-gray-600">
+          <div class="text-3xl font-bold text-right text-green-400" id="totalPrice">Total: 0 RWF</div>
+        </div>
+        <div class="flex justify-between mt-10">
+          <button id="cancelOrder" class="px-8 py-4 bg-gray-600 rounded-xl text-xl hover:bg-gray-700 transition">Cancel</button>
+          <button id="submitOrder" class="px-10 py-4 bg-green-600 rounded-xl text-xl font-bold hover:bg-green-700 transform hover:scale-110 transition shadow-xl">
+            Confirm & Send Order
+          </button>
         </div>
       </div>
     </div>
   </section>
 
-  <section id="contact" class="min-h-screen flex items-center justify-center p-6 fade-section">
-    <div class="w-full max-w-md bg-gray-800 p-6 rounded-xl">
-      <h2 class="text-3xl font-bold mb-4">Contact Us</h2>
-      <form id="contactForm" class="space-y-4">
-        <input type="text" name="contactName" placeholder="Your Name" class="w-full p-3 rounded bg-gray-700" required />
-        <input type="email" name="contactEmail" placeholder="Email Address" class="w-full p-3 rounded bg-gray-700" required />
-        <textarea name="message" placeholder="Your Message" class="w-full p-3 rounded bg-gray-700" rows="4" required></textarea>
-        <button type="submit" class="w-full px-4 py-2 bg-blue-700 rounded hover:bg-blue-800">Send Message</button>
+  <!-- Contact -->
+  <section id="contact" class="min-h-screen flex items-center justify-center p-8 fade-section">
+    <div class="max-w-2xl w-full bg-gray-800 p-10 rounded-3xl shadow-2xl border border-gray-700">
+      <h2 class="text-5xl font-bold mb-10 text-center text-blue-400">Get in Touch</h2>
+      <form class="space-y-6">
+        <input type="text" placeholder="Your Name" class="w-full p-5 rounded-xl bg-gray-700 text-lg" required />
+        <input type="email" placeholder="Your Email" class="w-full p-5 rounded-xl bg-gray-700 text-lg" required />
+        <textarea placeholder="Your Message..." rows="6" class="w-full p-5 rounded-xl bg-gray-700 text-lg" required></textarea>
+        <button type="submit" class="w-full py-5 bg-blue-600 text-2xl font-bold rounded-xl hover:bg-blue-700 transition transform hover:scale-105">
+          Send Message
+        </button>
       </form>
     </div>
   </section>
 
   <script>
-    // Fade-in on scroll
-    const fadeSections = document.querySelectorAll('.fade-section');
+    // Fade in sections
     const observer = new IntersectionObserver(entries => {
       entries.forEach(entry => {
-        if(entry.isIntersecting) entry.target.classList.add('visible');
+        if (entry.isIntersecting) entry.target.classList.add('visible');
       });
-    }, { threshold: 0.2 });
-    fadeSections.forEach(section => observer.observe(section));
+    }, { threshold: 0.1 });
+    document.querySelectorAll('.fade-section').forEach(el => observer.observe(el));
 
-    // Show/hide product options
-    const productSoap = document.getElementById('productSoap');
-    const productBread = document.getElementById('productBread');
-    const soapOptions = document.getElementById('soapOptions');
-    const breadOptions = document.getElementById('breadOptions');
-
-    productSoap.addEventListener('change', () => soapOptions.classList.toggle('hidden', !productSoap.checked));
-    productBread.addEventListener('change', () => breadOptions.classList.toggle('hidden', !productBread.checked));
-
-    // Modal functionality
-    const confirmBtn = document.getElementById('confirmOrderBtn');
-    const modal = document.getElementById('orderModal');
-    const orderSummary = document.getElementById('orderSummary');
-    const cancelBtn = document.getElementById('cancelOrder');
-
-    confirmBtn.addEventListener('click', () => {
-      const name = document.querySelector('[name="name"]').value;
-      const email = document.querySelector('[name="email"]').value;
-      const tel = document.querySelector('[name="tel"]').value;
-
-      let summary = `<p><strong>Name:</strong> ${name}</p><p><strong>Email:</strong> ${email}</p><p><strong>Tel:</strong> ${tel}</p><hr class='my-2 border-gray-600'>`;
-      if(productSoap.checked){
-        const soap3 = document.getElementById('soapCount').value;
-        const soap5 = document.getElementById('soapCount5').value;
-        if(soap3) summary += `<p>Liquid Soap 3L: ${soap3} container(s)</p>`;
-        if(soap5) summary += `<p>Liquid Soap 5L: ${soap5} container(s)</p>`;
-      }
-      if(productBread.checked){
-        const bread10 = document.getElementById('breadCount10').value;
-        const bread6 = document.getElementById('breadCount6').value;
-        if(bread10) summary += `<p>Bread 10-piece pack: ${bread10} pack(s)</p>`;
-        if(bread6) summary += `<p>Bread 6-piece pack: ${bread6} pack(s)</p>`;
-      }
-      orderSummary.innerHTML = summary;
-      modal.style.display = 'flex';
+    // Toggle product options
+    document.getElementById('productSoap').addEventListener('change', e => {
+      document.getElementById('soapOptions').classList.toggle('hidden', !e.target.checked);
+    });
+    document.getElementById('productBread').addEventListener('change', e => {
+      document.getElementById('breadOptions').classList.toggle('hidden', !e.target.checked);
     });
 
-    cancelBtn.addEventListener('click', () => modal.style.display='none');
+    // Show quantity when size selected
+    document.querySelectorAll('input[name="soapSize"]').forEach(radio => {
+      radio.addEventListener('change', () => {
+        document.getElementById('soapCount3L').classList.toggle('hidden', radio.value !== '3L');
+        document.getElementById('soapCount3L').disabled = radio.value !== '3L';
+        document.getElementById('soapCount5L').classList.toggle('hidden', radio.value !== '5L');
+        document.getElementById('soapCount5L').disabled = radio.value !== '5L';
+        if (radio.checked) setTimeout(() => document.getElementById(`soapCount${radio.value}`).focus(), 100);
+      });
+    });
+
+    document.querySelectorAll('input[name="breadSize"]').forEach(radio => {
+      radio.addEventListener('change', () => {
+        const is10 = radio.value === '10pack';
+        document.getElementById('breadCount10').classList.toggle('hidden', !is10);
+        document.getElementById('breadCount10').disabled = !is10;
+        document.getElementById('breadCount6').classList.toggle('hidden', is10);
+        document.getElementById('breadCount6').disabled = is10;
+        if (radio.checked) setTimeout(() => document.getElementById(is10 ? 'breadCount10' : 'breadCount6').focus(), 100);
+      });
+    });
+
+    // Prices
+    const prices = { soap3L: 2500, soap5L: 4000, bread10: 1500, bread6: 2000 };
+
+    // Review Order
+    document.getElementById('confirmOrderBtn').addEventListener('click', () => {
+      const name = document.querySelector('[name="name"]').value.trim();
+      const email = document.querySelector('[name="email"]').value.trim();
+      const tel = document.querySelector('[name="tel"]').value.trim();
+
+      if (!name || !email || !tel) return alert("Please fill in your name, email, and phone number.");
+
+      let summary = `<p class="text-xl"><strong>Name:</strong> ${name}</p>
+                     <p><strong>Email:</strong> ${email}</p>
+                     <p><strong>Phone:</strong> ${tel}</p>
+                     <hr class="my-4 border-gray-500">
+                     <p class="text-2xl font-bold text-blue-300 mb-4">Your Order:</p>`;
+      let total = 0;
+      let hasOrder = false;
+
+      // Soap
+      if (document.getElementById('productSoap').checked) {
+        const size = document.querySelector('input[name="soapSize"]:checked');
+        if (size) {
+          const qty = parseInt(document.getElementById(size.value === '3L' ? 'soapCount3L' : 'soapCount5L').value) || 0;
+          if (qty > 0) {
+            const price = size.value === '3L' ? 2500 : 4000;
+            total += price * qty;
+            hasOrder = true;
+            summary += `<p class="text-lg">Liquid Soap (${size.value === '3L' ? '3L' : '5L'}) × ${qty} = <strong>${(price*qty).toLocaleString()} RWF</strong></p>`;
+          }
+        }
+      }
+
+      // Bread
+      if (document.getElementById('productBread').checked) {
+        const size = document.querySelector('input[name="breadSize"]:checked');
+        if (size) {
+          const qty = parseInt(document.getElementById(size.value === '10pack' ? 'breadCount10' : 'breadCount6').value) || 0;
+          if (qty > 0) {
+            const price = size.value === '10pack' ? 1500 : 2000;
+            total += price * qty;
+            hasOrder = true;
+            summary += `<p class="text-lg">Bread (${size.value === '10pack' ? '10-piece' : '6-piece large'}) × ${qty} = <strong>${(price*qty).toLocaleString()} RWF</strong></p>`;
+          }
+        }
+      }
+
+      if (!hasOrder) return alert("Please select at least one product with quantity.");
+
+      document.getElementById('orderSummary').innerHTML = summary;
+      document.getElementById('totalPrice').textContent = `Total: ${total.toLocaleString()} RWF`;
+      document.getElementById('orderModal').style.display = 'flex';
+    });
+
+    // Modal controls
+    document.getElementById('cancelOrder').addEventListener('click', () => {
+      document.getElementById('orderModal').style.display = 'none';
+    });
+
+    document.getElementById('submitOrder').addEventListener('click', () => {
+      alert("Thank you! Your order has been received. We will contact you soon via phone or email.");
+      document.getElementById('orderModal').style.display = 'none';
+      document.getElementById('orderForm').reset();
+      document.querySelectorAll('#soapOptions, #breadOptions').forEach(el => el.classList.add('hidden'));
+    });
   </script>
 </body>
 </html>
