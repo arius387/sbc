@@ -28,7 +28,7 @@
     </div>
   </nav>
 
-  <!-- Hero -->
+  <!-- Hero Section -->
   <section id="home" class="min-h-screen flex items-center justify-center p-6 fade-section visible">
     <div class="text-center max-w-4xl">
       <h1 class="text-5xl md:text-7xl font-extrabold mb-6 bg-gradient-to-r from-blue-400 via-cyan-400 to-blue-500 bg-clip-text text-transparent">
@@ -57,70 +57,76 @@
     <h2 class="text-5xl font-bold mb-12 text-blue-400">Place Your Order</h2>
 
     <form id="orderForm" class="w-full max-w-3xl bg-gray-800 p-10 rounded-3xl shadow-2xl border border-gray-700 space-y-8">
-      <!-- Customer Info -->
       <div class="grid md:grid-cols-3 gap-6">
         <input type="text" name="name" placeholder="Your Full Name" class="p-4 rounded-xl bg-gray-700 text-lg" required />
         <input type="email" name="email" placeholder="Email Address" class="p-4 rounded-xl bg-gray-700 text-lg" required />
         <input type="tel" name="tel" placeholder="Phone Number (e.g. 078...)" class="p-4 rounded-xl bg-gray-700 text-lg" required />
       </div>
 
-      <!-- Products -->
-      <div class="space-y-8">
-        <p class="text-2xl font-bold text-blue-300">Select Products & Quantity</p>
+      <div class="space-y-6">
+        <p class="text-2xl font-bold text-blue-300">Choose Products</p>
+        
+        <label class="flex items-center space-x-4 text-xl bg-gray-700 p-4 rounded-xl cursor-pointer hover:bg-gray-600 transition">
+          <input type="checkbox" id="productSoap" class="w-6 h-6">
+          <span>Liquid Soap</span>
+        </label>
 
-        <!-- Liquid Soap -->
-        <div class="bg-gray-700 p-8 rounded-2xl border border-blue-500">
-          <h3 class="text-2xl font-bold text-blue-300 mb-6">Liquid Soap</h3>
-          <div class="space-y-6">
-            <label class="flex items-center justify-between text-lg">
-              <div class="flex items-center space-x-4">
-                <input type="checkbox" id="soap3L" class="w-6 h-6">
+        <label class="flex items-center space-x-4 text-xl bg-gray-700 p-4 rounded-xl cursor-pointer hover:bg-gray-600 transition">
+          <input type="checkbox" id="productBread" class="w-6 h-6">
+          <span>Fresh Bread</span>
+        </label>
+      </div>
+
+      <!-- Soap Options -->
+      <div id="soapOptions" class="hidden space-y-6 bg-gray-700 p-8 rounded-2xl border border-blue-500">
+        <h3 class="text-2xl font-bold text-blue-300">Liquid Soap</h3>
+        <div class="space-y-6">
+          <div>
+            <label class="flex justify-between items-center text-lg">
+              <div class="flex items-center space-x-3">
+                <input type="radio" name="soapSize" value="3L" class="w-5 h-5">
                 <span>3 Litres</span>
               </div>
-              <div class="flex items-center space-x-3">
-                <span class="font-bold text-green-400">2,500 RWF</span>
-                <input type="number" id="soap3L_qty" min="1" placeholder="Qty" class="hidden w-24 p-3 rounded bg-gray-600 text-center" />
-              </div>
+              <span class="font-bold text-green-400">2,500 RWF</span>
             </label>
-
-            <label class="flex items-center justify-between text-lg">
-              <div class="flex items-center space-x-4">
-                <input type="checkbox" id="soap5L" class="w-6 h-6">
+            <input type="number" id="soapCount3L" placeholder="How many containers?" min="1" class="hidden w-full mt-3 p-4 rounded-lg bg-gray-600" disabled />
+          </div>
+          <div>
+            <label class="flex justify-between items-center text-lg">
+              <div class="flex items-center space-x-3">
+                <input type="radio" name="soapSize" value="5L" class="w-5 h-5">
                 <span>5 Litres</span>
               </div>
-              <div class="flex items-center space-x-3">
-                <span class="font-bold text-green-400">4,000 RWF</span>
-                <input type="number" id="soap5L_qty" min="1" placeholder="Qty" class="hidden w-24 p-3 rounded bg-gray-600 text-center" />
-              </div>
+              <span class="font-bold text-green-400">4,000 RWF</span>
             </label>
+            <input type="number" id="soapCount5L" placeholder="How many containers?" min="1" class="hidden w-full mt-3 p-4 rounded-lg bg-gray-600" disabled />
           </div>
         </div>
+      </div>
 
-        <!-- Fresh Bread -->
-        <div class="bg-gray-700 p-8 rounded-2xl border border-blue-500">
-          <h3 class="text-2xl font-bold text-blue-300 mb-6">Fresh Bread</h3>
-          <div class="space-y-6">
-            <label class="flex items-center justify-between text-lg">
-              <div class="flex items-center space-x-4">
-                <input type="checkbox" id="bread10" class="w-6 h-6">
+      <!-- Bread Options -->
+      <div id="breadOptions" class="hidden space-y-6 bg-gray-700 p-8 rounded-2xl border border-blue-500">
+        <h3 class="text-2xl font-bold text-blue-300">Fresh Bread</h3>
+        <div class="space-y-6">
+          <div>
+            <label class="flex justify-between items-center text-lg">
+              <div class="flex items-center space-x-3">
+                <input type="radio" name="breadSize" value="10pack" class="w-5 h-5">
                 <span>10-piece pack (small)</span>
               </div>
-              <div class="flex items-center space-x-3">
-                <span class="font-bold text-green-400">1,500 RWF</span>
-                <input type="number" id="bread10_qty" min="1" placeholder="Qty" class="hidden w-24 p-3 rounded bg-gray-600 text-center" />
-              </div>
+              <span class="font-bold text-green-400">1,500 RWF</span>
             </label>
-
-            <label class="flex items-center justify-between text-lg">
-              <div class="flex items-center space-x-4">
-                <input type="checkbox" id="bread6" class="w-6 h-6">
+            <input type="number" id="breadCount10" placeholder="How many packs?" min="1" class="hidden w-full mt-3 p-4 rounded-lg bg-gray-600" disabled />
+          </div>
+          <div>
+            <label class="flex justify-between items-center text-lg">
+              <div class="flex items-center space-x-3">
+                <input type="radio" name="breadSize" value="6pack" class="w-5 h-5">
                 <span>6-piece pack (large)</span>
               </div>
-              <div class="flex items-center space-x-3">
-                <span class="font-bold text-green-400">2,000 RWF</span>
-                <input type="number" id="bread6_qty" min="1" placeholder="Qty" class="hidden w-24 p-3 rounded bg-gray-600 text-center" />
-              </div>
+              <span class="font-bold text-green-400">2,000 RWF</span>
             </label>
+            <input type="number" id="breadCount6" placeholder="How many packs?" min="1" class="hidden w-full mt-3 p-4 rounded-lg bg-gray-600" disabled />
           </div>
         </div>
       </div>
@@ -139,7 +145,7 @@
           <div class="text-3xl font-bold text-right text-green-400" id="totalPrice">Total: 0 RWF</div>
         </div>
         <div class="flex justify-between mt-10">
-          <button id="cancelOrder" class="px-8 py-4 bg-gray-600 rounded-xl text-xl hover:bg-gray-700 transition">Cancel</button>
+          <button id="cancelOrder" class="px-8 pt-4 pb-4 bg-gray-600 rounded-xl text-xl hover:bg-gray-700 transition">Cancel</button>
           <button id="submitOrder" class="relative px-10 py-4 bg-green-600 rounded-xl text-xl font-bold hover:bg-green-700 transform hover:scale-110 transition shadow-xl">
             Confirm & Send Order
           </button>
@@ -149,71 +155,107 @@
   </section>
 
   <script>
-    // Show quantity when checkbox is checked
-    ['soap3L', 'soap5L', 'bread10', 'bread6'].forEach(id => {
-      document.getElementById(id).addEventListener('change', function () {
-        const qtyInput = document.getElementById(id + '_qty');
-        qtyInput.classList.toggle('hidden', !this.checked);
-        if (this.checked) qtyInput.focus();
-      });
-    });
+    // Fade in
+    const observer = new IntersectionObserver(e => e.forEach(en => en.isIntersecting && en.target.classList.add('visible')), { threshold: 0.1 });
+    document.querySelectorAll('.fade-section').forEach(el => observer.observe(el));
+
+    // Toggle product options
+    document.getElementById('productSoap').addEventListener('change', e => document.getElementById('soapOptions').classList.toggle('hidden', !e.target.checked));
+    document.getElementById('productBread').addEventListener('change', e => document.getElementById('breadOptions').classList.toggle('hidden', !e.target.checked));
+
+    // Show quantity inputs when size selected
+    document.querySelectorAll('input[name="soapSize"]').forEach(r => r.addEventListener('change', () => {
+      const is3L = r.value === '3L';
+      document.getElementById('soapCount3L').classList.toggle('hidden', !is3L); document.getElementById('soapCount3L').disabled = !is3L;
+      document.getElementById('soapCount5L').classList.toggle('hidden', is3L); document.getElementById('soapCount5L').disabled = is3L;
+      if (r.checked) setTimeout(() => document.getElementById(is3L ? 'soapCount3L' : 'soapCount5L').focus(), 100);
+    }));
+
+    document.querySelectorAll('input[name="breadSize"]').forEach(r => r.addEventListener('change', () => {
+      const is10 = r.value === '10pack';
+      document.getElementById('breadCount10').classList.toggle('hidden', !is10); document.getElementById('breadCount10').disabled = !is10;
+      document.getElementById('breadCount6').classList.toggle('hidden', is10); document.getElementById('breadCount6').disabled = is10;
+      if (r.checked) setTimeout(() => document.getElementById(is10 ? 'breadCount10' : 'breadCount6').focus(), 100);
+    }));
 
     const MAKE_WEBHOOK = "https://hook.us2.make.com/ygz8rqdikqtsgsrpe43pqy5249vnvnyj";
 
-    // Review Order
+    // Review Order Button
     document.getElementById('confirmOrderBtn').addEventListener('click', () => {
       const name = document.querySelector('[name="name"]').value.trim();
       const email = document.querySelector('[name="email"]').value.trim();
       const phone = document.querySelector('[name="tel"]').value.trim();
-      if (!name || !email || !phone) return alert("Please fill in your name, email, and phone.");
 
-      const s3 = parseInt(document.getElementById('soap3L_qty').value) || 0;
-      const s5 = parseInt(document.getElementById('soap5L_qty').value) || 0;
-      const b10 = parseInt(document.getElementById('bread10_qty').value) || 0;
-      const b6 = parseInt(document.getElementById('bread6_qty').value) || 0;
+      if (!name || !email || !phone) return alert("Please fill in your name, email, and phone number.");
 
-      if (s3 + s5 + b10 + b6 === 0) return alert("Please select at least one product.");
-
-      const items = [];
+      let items = [];
       let total = 0;
-      if (s3 > 0) { items.push(`Liquid Soap 3L × ${s3} = ${(s3*2500).toLocaleString()} RWF`); total += s3*2500; }
-      if (s5 > 0) { items.push(`Liquid Soap 5L × ${s5} = ${(s5*4000).toLocaleString()} RWF`); total += s5*4000; }
-      if (b10 > 0) { items.push(`Bread 10-piece × ${b10} = ${(b10*1500).toLocaleString()} RWF`); total += b10*1500; }
-      if (b6 > 0) { items.push(`Bread 6-piece large × ${b6} = ${(b6*2000).toLocaleString()} RWF`); total += b6*2000; }
 
-      document.getElementById('orderSummary').innerHTML = `
+      // Soap
+      if (document.getElementById('productSoap').checked) {
+        const size = document.querySelector('input[name="soapSize"]:checked');
+        if (size) {
+          const qty = parseInt(document.getElementById(size.value === '3L' ? 'soapCount3L' : 'soapCount5L').value) || 0;
+          if (qty > 0) {
+            const price = size.value === '3L' ? 2500 : 4000;
+            total += price * qty;
+            items.push(`Liquid Soap ${size.value} × ${qty} = ${(price*qty).toLocaleString()} RWF`);
+          }
+        }
+      }
+
+      // Bread
+      if (document.getElementById('productBread').checked) {
+        const size = document.querySelector('input[name="breadSize"]:checked');
+        if (size) {
+          const qty = parseInt(document.getElementById(size.value === '10pack' ? 'breadCount10' : 'breadCount6').value) || 0;
+          if (qty > 0) {
+            const price = size.value === '10pack' ? 1500 : 2000;
+            total += price * qty;
+            items.push(`Bread ${size.value === '10pack' ? '10-piece' : '6-piece large'} × ${qty} = ${(price*qty).toLocaleString()} RWF`);
+          }
+        }
+      }
+
+      if (items.length === 0) return alert("Please select at least one product with quantity.");
+
+      const summaryHTML = `
         <p><strong>Name:</strong> ${name}</p>
         <p><strong>Email:</strong> ${email}</p>
         <p><strong>Phone:</strong> ${phone}</p>
         <hr class="my-4 border-gray-500">
-        <p class="text-2xl font-bold text-blue-300 mb-3">Your Order:</p>
-        ${items.map(i => `<p class="text-lg">• ${i}</p>`).join('')}
+        <p class="text-2xl font-bold text-blue-300 mb-3">Order Details:</p>
+        ${items.map(item => `<p class="text-lg">• ${item}</p>`).join('')}
       `;
+
+      document.getElementById('orderSummary').innerHTML = summaryHTML;
       document.getElementById('totalPrice').textContent = `Total: ${total.toLocaleString()} RWF`;
       document.getElementById('orderModal').style.display = 'flex';
     });
 
-    // Submit to Make.com
+    // Submit Order to Make.com
     document.getElementById('submitOrder').addEventListener('click', async () => {
       const btn = document.getElementById('submitOrder');
       btn.classList.add('loading');
       btn.innerHTML = 'Sending...';
 
+      const name = document.querySelector('[name="name"]').value.trim();
+      const email = document.querySelector('[name="email"]').value.trim();
+      const phone = document.querySelector('[name="tel"]').value.trim();
+
+      const soap_3L = document.querySelector('input[name="soapSize"]:checked')?.value === '3L' ? (parseInt(document.getElementById('soapCount3L').value) || 0) : 0;
+      const soap_5L = document.querySelector('input[name="soapSize"]:checked')?.value === '5L' ? (parseInt(document.getElementById('soapCount5L').value) || 0) : 0;
+      const bread_10pack = document.querySelector('input[name="breadSize"]:checked')?.value === '10pack' ? (parseInt(document.getElementById('breadCount10').value) || 0) : 0;
+      const bread_6pack = document.querySelector('input[name="breadSize"]:checked')?.value === '6pack' ? (parseInt(document.getElementById('breadCount6').value) || 0) : 0;
+
+      const total = (soap_3L * 2500) + (soap_5L * 4000) + (bread_10pack * 1500) + (bread_6pack * 2000);
+      const submitted_at = new Date().toLocaleString('en-GB', { timeZone: 'Africa/Kigali' });
+
       const payload = {
-        name: document.querySelector('[name="name"]').value.trim(),
-        email: document.querySelector('[name="email"]').value.trim(),
-        phone: document.querySelector('[name="tel"]').value.trim(),
-        soap_3L: parseInt(document.getElementById('soap3L_qty').value) || 0,
-        soap_5L: parseInt(document.getElementById('soap5L_qty').value) || 0,
-        bread_10pack: parseInt(document.getElementById('bread10_qty').value) || 0,
-        bread_6pack: parseInt(document.getElementById('bread6_qty').value) || 0,
-        total: (
-          (parseInt(document.getElementById('soap3L_qty').value) || 0) * 2500 +
-          (parseInt(document.getElementById('soap5L_qty').value) || 0) * 4000 +
-          (parseInt(document.getElementById('bread10_qty').value) || 0) * 1500 +
-          (parseInt(document.getElementById('bread6_qty').value) || 0) * 2000
-        ) + " RWF",
-        submitted_at: new Date().toLocaleString('en-GB', { timeZone: 'Africa/Kigali' })
+        name, email, phone,
+        soap_3L, soap_5L, bread_10pack, bread_6pack,
+        total: total + " RWF",
+        submitted_at
       };
 
       try {
@@ -222,17 +264,17 @@
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(payload)
         });
+
         if (res.ok) {
-          alert("Order sent successfully! We will contact you soon.");
+          alert("Order sent successfully! We will contact you very soon.");
           document.getElementById('orderModal').style.display = 'none';
           document.getElementById('orderForm').reset();
-          document.querySelectorAll('input[type="number"]').forEach(i => i.classList.add('hidden'));
-          document.querySelectorAll('input[type="checkbox"]').forEach(c => c.checked = false);
+          document.querySelectorAll('#soapOptions, #breadOptions').forEach(el => el.classList.add('hidden'));
         } else {
-          alert("Failed to send. Please try again.");
+          alert("Failed to send order. Please try again.");
         }
       } catch (err) {
-        alert("No internet connection. Try again when online.");
+        alert("No internet connection. Please check and try again.");
       } finally {
         btn.classList.remove('loading');
         btn.innerHTML = 'Confirm & Send Order';
@@ -242,10 +284,6 @@
     document.getElementById('cancelOrder').addEventListener('click', () => {
       document.getElementById('orderModal').style.display = 'none';
     });
-
-    // Fade-in on scroll
-    new IntersectionObserver(entries => entries.forEach(entry => entry.isIntersecting && entry.target.classList.add('visible')), { threshold: 0.1 })
-      .observe(...document.querySelectorAll('.fade-section'));
   </script>
 </body>
 </html>
