@@ -9,9 +9,10 @@
     .fade-section { opacity: 0; transition: opacity 0.8s ease-in-out; }
     .fade-section.visible { opacity: 1; }
     .modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.9); justify-content: center; align-items: center; z-index: 1000; }
-    .modal-content { background: #1f2937; padding: 2rem; border-radius: 1rem; max-width: 550px; width: 90%; max-height: 90vh; overflow-y: auto; box-shadow: 0 20px 50px rgba(0,0,0,0.7); }
-    input:focus, textarea:focus { outline: 3px solid #60a5fa; }
+    .modal-content { background: #1f2937; padding: 2.5rem; border-radius: 1rem; max-width: 600px; width: 90%; max-height: 90vh; overflow-y: auto; box-shadow: 0 25px 50px rgba(0,0,0,0.8); }
     .loading { pointer-events: none; opacity: 0.7; }
+    .loading::after { content: ""; position: absolute; width: 24px; height: 24px; border: 4px solid #fff; border-top-color: transparent; border-radius: 50%; animation: spin 1s linear infinite; left: 50%; top: 50%; transform: translate(-50%,-50%); }
+    @keyframes spin { to { transform: translate(-50%,-50%) rotate(360deg); } }
   </style>
 </head>
 <body class="bg-gray-900 text-gray-100 min-h-screen">
@@ -27,7 +28,7 @@
     </div>
   </nav>
 
-  <!-- Hero -->
+  <!-- Hero Section -->
   <section id="home" class="min-h-screen flex items-center justify-center p-6 fade-section visible">
     <div class="text-center max-w-4xl">
       <h1 class="text-5xl md:text-7xl font-extrabold mb-6 bg-gradient-to-r from-blue-400 via-cyan-400 to-blue-500 bg-clip-text text-transparent">
@@ -56,14 +57,12 @@
     <h2 class="text-5xl font-bold mb-12 text-blue-400">Place Your Order</h2>
 
     <form id="orderForm" class="w-full max-w-3xl bg-gray-800 p-10 rounded-3xl shadow-2xl border border-gray-700 space-y-8">
-      <!-- Customer Info -->
       <div class="grid md:grid-cols-3 gap-6">
         <input type="text" name="name" placeholder="Your Full Name" class="p-4 rounded-xl bg-gray-700 text-lg" required />
         <input type="email" name="email" placeholder="Email Address" class="p-4 rounded-xl bg-gray-700 text-lg" required />
         <input type="tel" name="tel" placeholder="Phone Number (e.g. 078...)" class="p-4 rounded-xl bg-gray-700 text-lg" required />
       </div>
 
-      <!-- Product Selection -->
       <div class="space-y-6">
         <p class="text-2xl font-bold text-blue-300">Choose Products</p>
         
@@ -78,7 +77,7 @@
         </label>
       </div>
 
-      <!-- Liquid Soap Options -->
+      <!-- Soap Options -->
       <div id="soapOptions" class="hidden space-y-6 bg-gray-700 p-8 rounded-2xl border border-blue-500">
         <h3 class="text-2xl font-bold text-blue-300">Liquid Soap</h3>
         <div class="space-y-6">
@@ -115,7 +114,7 @@
                 <input type="radio" name="breadSize" value="10pack" class="w-5 h-5">
                 <span>10-piece pack (small)</span>
               </div>
-              <span class="font-bold text-green-400">1,500 R 1,500 RWF</span>
+              <span class="font-bold text-green-400">1,500 RWF</span>
             </label>
             <input type="number" id="breadCount10" placeholder="How many packs?" min="1" class="hidden w-full mt-3 p-4 rounded-lg bg-gray-600" disabled />
           </div>
@@ -137,7 +136,7 @@
       </button>
     </form>
 
-    <!-- Confirmation Modal -->
+    <!-- Modal -->
     <div id="orderModal" class="modal">
       <div class="modal-content text-gray-200">
         <h3 class="text-3xl font-bold mb-6 text-blue-400 text-center">Confirm Your Order</h3>
@@ -146,9 +145,9 @@
           <div class="text-3xl font-bold text-right text-green-400" id="totalPrice">Total: 0 RWF</div>
         </div>
         <div class="flex justify-between mt-10">
-          <button id="cancelOrder" class="px-8 py-4 bg-gray-600 rounded-xl text-xl hover:bg-gray-700 transition">Cancel</button>
-          <button id="submitOrder" class="px-10 py-4 bg-green-600 rounded-xl text-xl font-bold hover:bg-green-700 transform hover:scale-110 transition shadow-xl relative">
-            Sending Order...
+          <button id="cancelOrder" class="px-8 pt-4 pb-4 bg-gray-600 rounded-xl text-xl hover:bg-gray-700 transition">Cancel</button>
+          <button id="submitOrder" class="relative px-10 py-4 bg-green-600 rounded-xl text-xl font-bold hover:bg-green-700 transform hover:scale-110 transition shadow-xl">
+            Confirm & Send Order
           </button>
         </div>
       </div>
@@ -160,16 +159,18 @@
     const observer = new IntersectionObserver(e => e.forEach(en => en.isIntersecting && en.target.classList.add('visible')), { threshold: 0.1 });
     document.querySelectorAll('.fade-section').forEach(el => observer.observe(el));
 
-    // Toggle options
+    // Toggle product options
     document.getElementById('productSoap').addEventListener('change', e => document.getElementById('soapOptions').classList.toggle('hidden', !e.target.checked));
     document.getElementById('productBread').addEventListener('change', e => document.getElementById('breadOptions').classList.toggle('hidden', !e.target.checked));
 
-    // Show quantity inputs
+    // Show quantity inputs when size selected
     document.querySelectorAll('input[name="soapSize"]').forEach(r => r.addEventListener('change', () => {
-      document.getElementById('soapCount3L').classList.toggle('hidden', r.value !== '3L'); document.getElementById('soapCount3L').disabled = r.value !== '3L';
-      document.getElementById('soapCount5L').classList.toggle('hidden', r.value !== '5L'); document.getElementById('soapCount5L').disabled = r.value !== '5L';
-      if (r.checked) setTimeout(() => document.getElementById(`soapCount${r.value}`).focus(), 100);
+      const is3L = r.value === '3L';
+      document.getElementById('soapCount3L').classList.toggle('hidden', !is3L); document.getElementById('soapCount3L').disabled = !is3L;
+      document.getElementById('soapCount5L').classList.toggle('hidden', is3L); document.getElementById('soapCount5L').disabled = is3L;
+      if (r.checked) setTimeout(() => document.getElementById(is3L ? 'soapCount3L' : 'soapCount5L').focus(), 100);
     }));
+
     document.querySelectorAll('input[name="breadSize"]').forEach(r => r.addEventListener('change', () => {
       const is10 = r.value === '10pack';
       document.getElementById('breadCount10').classList.toggle('hidden', !is10); document.getElementById('breadCount10').disabled = !is10;
@@ -179,16 +180,18 @@
 
     const MAKE_WEBHOOK = "https://hook.us2.make.com/ygz8rqdikqtsgsrpe43pqy5249vnvnyj";
 
+    // Review Order Button
     document.getElementById('confirmOrderBtn').addEventListener('click', () => {
       const name = document.querySelector('[name="name"]').value.trim();
       const email = document.querySelector('[name="email"]').value.trim();
-      const tel = document.querySelector('[name="tel"]').value.trim();
+      const phone = document.querySelector('[name="tel"]').value.trim();
 
-      if (!name || !email || !tel) return alert("Please fill in your name, email, and phone.");
+      if (!name || !email || !phone) return alert("Please fill in your name, email, and phone number.");
 
       let items = [];
       let total = 0;
 
+      // Soap
       if (document.getElementById('productSoap').checked) {
         const size = document.querySelector('input[name="soapSize"]:checked');
         if (size) {
@@ -196,11 +199,12 @@
           if (qty > 0) {
             const price = size.value === '3L' ? 2500 : 4000;
             total += price * qty;
-            items.push(`Liquid Soap ${size.value} × ${qty} = ${price * qty} RWF`);
+            items.push(`Liquid Soap ${size.value} × ${qty} = ${(price*qty).toLocaleString()} RWF`);
           }
         }
       }
 
+      // Bread
       if (document.getElementById('productBread').checked) {
         const size = document.querySelector('input[name="breadSize"]:checked');
         if (size) {
@@ -208,76 +212,72 @@
           if (qty > 0) {
             const price = size.value === '10pack' ? 1500 : 2000;
             total += price * qty;
-            items.push(`Bread ${size.value === '10pack' ? '10-piece' : '6-piece large'} × ${qty} = ${price * qty} RWF`);
+            items.push(`Bread ${size.value === '10pack' ? '10-piece' : '6-piece large'} × ${qty} = ${(price*qty).toLocaleString()} RWF`);
           }
         }
       }
 
       if (items.length === 0) return alert("Please select at least one product with quantity.");
 
-      const summary = `<p class="text-xl"><strong>Name:</strong> ${name}</p>
-                       <p><strong>Email:</strong> ${email}</p>
-                       <p><strong>Phone:</strong> ${tel}</p>
-                       <hr class="my-4 border-gray-500">
-                       <p class="text-2xl font-bold text-blue-300 mb-4">Order Items:</p>
-                       ${items.map(i => `<p class="text-lg">• ${i}</p>`).join('')}`;
+      const summaryHTML = `
+        <p><strong>Name:</strong> ${name}</p>
+        <p><strong>Email:</strong> ${email}</p>
+        <p><strong>Phone:</strong> ${phone}</p>
+        <hr class="my-4 border-gray-500">
+        <p class="text-2xl font-bold text-blue-300 mb-3">Order Details:</p>
+        ${items.map(item => `<p class="text-lg">• ${item}</p>`).join('')}
+      `;
 
-      document.getElementById('orderSummary').innerHTML = summary;
+      document.getElementById('orderSummary').innerHTML = summaryHTML;
       document.getElementById('totalPrice').textContent = `Total: ${total.toLocaleString()} RWF`;
       document.getElementById('orderModal').style.display = 'flex';
     });
 
-    // SUBMIT TO MAKE.COM
+    // Submit Order to Make.com
     document.getElementById('submitOrder').addEventListener('click', async () => {
       const btn = document.getElementById('submitOrder');
       btn.classList.add('loading');
-      btn.textContent = "Sending...";
+      btn.innerHTML = 'Sending...';
 
       const name = document.querySelector('[name="name"]').value.trim();
       const email = document.querySelector('[name="email"]').value.trim();
-      const tel = document.querySelector('[name="tel"]').value.trim();
-      const total = document.getElementById('totalPrice').textContent;
+      const phone = document.querySelector('[name="tel"]').value.trim();
 
-      let orderDetails = [];
-      if (document.getElementById('productSoap').checked) {
-        const size = document.querySelector('input[name="soapSize"]:checked');
-        if (size) {
-          const qty = parseInt(document.getElementById(size.value === '3L' ? 'soapCount3L' : 'soapCount5L').value) || 0;
-          if (qty > 0) orderDetails.push(`Soap ${size.value} × ${qty}`);
-        }
-      }
-      if (document.getElementById('productBread').checked) {
-        const size = document.querySelector('input[name="breadSize"]:checked');
-        if (size) {
-          const qty = parseInt(document.getElementById(size.value === '10pack' ? 'breadCount10' : 'breadCount6').value) || 0;
-          if (qty > 0) orderDetails.push(`Bread ${size.value === '10pack' ? '10-pc' : '6-pc large'} × ${qty}`);
-        }
-      }
+      const soap_3L = document.querySelector('input[name="soapSize"]:checked')?.value === '3L' ? (parseInt(document.getElementById('soapCount3L').value) || 0) : 0;
+      const soap_5L = document.querySelector('input[name="soapSize"]:checked')?.value === '5L' ? (parseInt(document.getElementById('soapCount5L').value) || 0) : 0;
+      const bread_10pack = document.querySelector('input[name="breadSize"]:checked')?.value === '10pack' ? (parseInt(document.getElementById('breadCount10').value) || 0) : 0;
+      const bread_6pack = document.querySelector('input[name="breadSize"]:checked')?.value === '6pack' ? (parseInt(document.getElementById('breadCount6').value) || 0) : 0;
+
+      const total = (soap_3L * 2500) + (soap_5L * 4000) + (bread_10pack * 1500) + (bread_6pack * 2000);
+      const submitted_at = new Date().toLocaleString('en-GB', { timeZone: 'Africa/Kigali' });
 
       const payload = {
-        name, email, phone: tel, total, items: orderDetails.join(" | "), timestamp: new Date().toLocaleString('en-GB')
+        name, email, phone,
+        soap_3L, soap_5L, bread_10pack, bread_6pack,
+        total: total + " RWF",
+        submitted_at
       };
 
       try {
-        const response = await fetch(MAKE_WEBHOOK, {
+        const res = await fetch(MAKE_WEBHOOK, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(payload)
         });
 
-        if (response.ok) {
-          alert("Order sent successfully! We will contact you soon.");
+        if (res.ok) {
+          alert("Order sent successfully! We will contact you very soon.");
           document.getElementById('orderModal').style.display = 'none';
           document.getElementById('orderForm').reset();
           document.querySelectorAll('#soapOptions, #breadOptions').forEach(el => el.classList.add('hidden'));
         } else {
-          alert("There was a problem. Please try again or call us directly.");
+          alert("Failed to send order. Please try again.");
         }
       } catch (err) {
-        alert("No internet connection. Please try again when online.");
+        alert("No internet connection. Please check and try again.");
       } finally {
         btn.classList.remove('loading');
-        btn.textContent = "Confirm & Send Order";
+        btn.innerHTML = 'Confirm & Send Order';
       }
     });
 
