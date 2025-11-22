@@ -154,33 +154,27 @@
     </div>
   </section>
 
-  <script>
-    // Fade in
-    const observer = new IntersectionObserver(e => e.forEach(en => en.isIntersecting && en.target.classList.add('visible')), { threshold: 0.1 });
+<script>
+    // Fade in on scroll
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) entry.target.classList.add('visible');
+      });
+    }, { threshold: 0.1 });
     document.querySelectorAll('.fade-section').forEach(el => observer.observe(el));
 
-    // Toggle product options
-    document.getElementById('productSoap').addEventListener('change', e => document.getElementById('soapOptions').classList.toggle('hidden', !e.target.checked));
-    document.getElementById('productBread').addEventListener('change', e => document.getElementById('breadOptions').classList.toggle('hidden', !e.target.checked));
-
-    // Show quantity inputs when size selected
-    document.querySelectorAll('input[name="soapSize"]').forEach(r => r.addEventListener('change', () => {
-      const is3L = r.value === '3L';
-      document.getElementById('soapCount3L').classList.toggle('hidden', !is3L); document.getElementById('soapCount3L').disabled = !is3L;
-      document.getElementById('soapCount5L').classList.toggle('hidden', is3L); document.getElementById('soapCount5L').disabled = is3L;
-      if (r.checked) setTimeout(() => document.getElementById(is3L ? 'soapCount3L' : 'soapCount5L').focus(), 100);
-    }));
-
-    document.querySelectorAll('input[name="breadSize"]').forEach(r => r.addEventListener('change', () => {
-      const is10 = r.value === '10pack';
-      document.getElementById('breadCount10').classList.toggle('hidden', !is10); document.getElementById('breadCount10').disabled = !is10;
-      document.getElementById('breadCount6').classList.toggle('hidden', is10); document.getElementById('breadCount6').disabled = is10;
-      if (r.checked) setTimeout(() => document.getElementById(is10 ? 'breadCount10' : 'breadCount6').focus(), 100);
-    }));
+    // Show quantity input when checkbox is clicked
+    ['soap3L', 'soap5L', 'bread10', 'bread6'].forEach(id => {
+      document.getElementById(id).addEventListener('change', function() {
+        const qtyInput = document.getElementById(id + '_qty');
+        qtyInput.classList.toggle('hidden', !this.checked);
+        if (this.checked) qtyInput.focus();
+      });
+    });
 
     const MAKE_WEBHOOK = "https://hook.us2.make.com/ygz8rqdikqtsgsrpe43pqy5249vnvnyj";
 
-    // Review Order Button
+    // Review Order
     document.getElementById('confirmOrderBtn').addEventListener('click', () => {
       const name = document.querySelector('[name="name"]').value.trim();
       const email = document.querySelector('[name="email"]').value.trim();
@@ -188,36 +182,20 @@
 
       if (!name || !email || !phone) return alert("Please fill in your name, email, and phone number.");
 
+      const s3 = parseInt(document.getElementById('soap3L_qty').value) || 0;
+      const s5 = parseInt(document.getElementById('soap5L_qty').value) || 0;
+      const b10 = parseInt(document.getElementById('bread10_qty').value) || 0;
+      const b6 = parseInt(document.getElementById('bread6_qty').value) || 0;
+
+      if (s3 + s5 + b10 + b6 === 0) return alert("Please select at least one product with quantity.");
+
       let items = [];
       let total = 0;
 
-      // Soap
-      if (document.getElementById('productSoap').checked) {
-        const size = document.querySelector('input[name="soapSize"]:checked');
-        if (size) {
-          const qty = parseInt(document.getElementById(size.value === '3L' ? 'soapCount3L' : 'soapCount5L').value) || 0;
-          if (qty > 0) {
-            const price = size.value === '3L' ? 2500 : 4000;
-            total += price * qty;
-            items.push(`Liquid Soap ${size.value} × ${qty} = ${(price*qty).toLocaleString()} RWF`);
-          }
-        }
-      }
-
-      // Bread
-      if (document.getElementById('productBread').checked) {
-        const size = document.querySelector('input[name="breadSize"]:checked');
-        if (size) {
-          const qty = parseInt(document.getElementById(size.value === '10pack' ? 'breadCount10' : 'breadCount6').value) || 0;
-          if (qty > 0) {
-            const price = size.value === '10pack' ? 1500 : 2000;
-            total += price * qty;
-            items.push(`Bread ${size.value === '10pack' ? '10-piece' : '6-piece large'} × ${qty} = ${(price*qty).toLocaleString()} RWF`);
-          }
-        }
-      }
-
-      if (items.length === 0) return alert("Please select at least one product with quantity.");
+      if (s3 > 0) { items.push(`Liquid Soap 3L × ${s3} = ${(s3*2500).toLocaleString()} RWF`); total += s3*2500; }
+      if (s5 > 0) { items.push(`Liquid Soap 5L × ${s5} = ${(s5*4000).toLocaleString()} RWF`); total += s5*4000; }
+      if (b10 > 0) { items.push(`Bread 10-piece × ${b10} = ${(b10*1500).toLocaleString()} RWF`); total += b10*1500; }
+      if (b6 > 0) { items.push(`Bread 6-piece large × ${b6} = ${(b6*2000).toLocaleString()} RWF`); total += b6*2000; }
 
       const summaryHTML = `
         <p><strong>Name:</strong> ${name}</p>
@@ -233,29 +211,27 @@
       document.getElementById('orderModal').style.display = 'flex';
     });
 
-    // Submit Order to Make.com
+    // Submit to Make.com
     document.getElementById('submitOrder').addEventListener('click', async () => {
       const btn = document.getElementById('submitOrder');
       btn.classList.add('loading');
       btn.innerHTML = 'Sending...';
 
-      const name = document.querySelector('[name="name"]').value.trim();
-      const email = document.querySelector('[name="email"]').value.trim();
-      const phone = document.querySelector('[name="tel"]').value.trim();
-
-      const soap_3L = document.querySelector('input[name="soapSize1"]:checked')?.value === '3L' ? (parseInt(document.getElementById('soapCount3L').value) || 0) : 0;
-      const soap_5L = document.querySelector('input[name="soapSize2"]:checked')?.value === '5L' ? (parseInt(document.getElementById('soapCount5L').value) || 0) : 0;
-      const bread_10pack = document.querySelector('input[name="breadSize1"]:checked')?.value === '10pack' ? (parseInt(document.getElementById('breadCount10').value) || 0) : 0;
-      const bread_6pack = document.querySelector('input[name="breadSize2"]:checked')?.value === '6pack' ? (parseInt(document.getElementById('breadCount6').value) || 0) : 0;
-
-      const total = (soap_3L * 2500) + (soap_5L * 4000) + (bread_10pack * 1500) + (bread_6pack * 2000);
-      const submitted_at = new Date().toLocaleString('en-GB', { timeZone: 'Africa/Kigali' });
-
       const payload = {
-        name, email, phone,
-        soap_3L, soap_5L, bread_10pack, bread_6pack,
-        total: total + " RWF",
-        submitted_at
+        name: document.querySelector('[name="name"]').value.trim(),
+        email: document.querySelector('[name="email"]').value.trim(),
+        phone: document.querySelector('[name="tel"]').value.trim(),
+        soap_3L: parseInt(document.getElementById('soap3L_qty').value) || 0,
+        soap_5L: parseInt(document.getElementById('soap5L_qty').value) || 0,
+        bread_10pack: parseInt(document.getElementById('bread10_qty').value) || 0,
+        bread_6pack: parseInt(document.getElementById('bread6_qty').value) || 0,
+        total: (
+          (parseInt(document.getElementById('soap3L_qty').value) || 0) * 2500 +
+          (parseInt(document.getElementById('soap5L_qty').value) || 0) * 4000 +
+          (parseInt(document.getElementById('bread10_qty').value) || 0) * 1500 +
+          (parseInt(document.getElementById('bread6_qty').value) || 0) * 2000
+        ) + " RWF",
+        submitted_at: new Date().toLocaleString('en-GB', { timeZone: 'Africa/Kigali' })
       };
 
       try {
@@ -269,7 +245,8 @@
           alert("Order sent successfully! We will contact you very soon.");
           document.getElementById('orderModal').style.display = 'none';
           document.getElementById('orderForm').reset();
-          document.querySelectorAll('#soapOptions, #breadOptions').forEach(el => el.classList.add('hidden'));
+          document.querySelectorAll('input[type="number"]').forEach(i => i.classList.add('hidden'));
+          document.querySelectorAll('input[type="checkbox"]').forEach(c => c.checked = false);
         } else {
           alert("Failed to send order. Please try again.");
         }
