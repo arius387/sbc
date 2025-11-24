@@ -9,35 +9,128 @@
     .fade-section { opacity: 0; transition: opacity 0.8s ease-in-out; }
     .fade-section.visible { opacity: 1; }
     .modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.9); justify-content: center; align-items: center; z-index: 1000; }
-    .modal-content { background: #1f2937; padding: 2rem; border-radius: 1rem; max-width: 550px; width: 90 В%; max-height: 90vh; overflow-y: auto; box-shadow: 0 20px 50px rgba(0,0,0,0.7); }
-    .loading { pointer-events: none; opacity: 0.6; }
-    .loading::after { content: ""; position: absolute; width: 20px; height: 20px; border: 3px solid #fff; border-top-color: transparent; border-radius: 50%; animation: spin 1s linear infinite; left: 50%; top: 50%; transform: translate(-50%,-50%); }
+    .modal-content { background: #1f2937; padding: 2.5rem; border-radius: 1rem; max-width: 600px; width: 90%; max-height: 90vh; overflow-y: auto; box-shadow: 0 25px 50px rgba(0,0,0,0.8); }
+    .loading { pointer-events: none; opacity: 0.7; }
+    .loading::after { content: ""; position: absolute; width: 24px; height: 24px; border: 4px solid #fff; border-top-color: transparent; border-radius: 50%; animation: spin 1s linear infinite; left: 50%; top: 50%; transform: translate(-50%,-50%); }
     @keyframes spin { to { transform: translate(-50%,-50%) rotate(360deg); } }
   </style>
 </head>
 <body class="bg-gray-900 text-gray-100 min-h-screen">
 
-  <!-- [Same beautiful HTML as before – only the <script> part changed] -->
-  <!-- I'll keep the full design but only show the updated script below for clarity -->
+  <!-- Navbar -->
+  <nav class="w-full flex justify-between items-center p-5 bg-gray-800 fixed top-0 z-50 shadow-xl backdrop-blur-sm bg-opacity-90">
+    <div class="text-2xl font-bold text-blue-400">Student Business Club</div>
+    <div class="space-x-8 text-lg">
+      <a href="#home" class="hover:text-blue-400 transition">Home</a>
+      <a href="#about" class="hover:text-blue-400 transition">About</a>
+      <a href="#order" class="hover:text-blue-400 transition">Order</a>
+      <a href="#contact" class="hover:text-blue-400 transition">Contact</a>
+    </div>
+  </nav>
 
-  <!-- Order Form Section (same as before) -->
+  <!-- Hero -->
+  <section id="home" class="min-h-screen flex items-center justify-center p-6 fade-section visible">
+    <div class="text-center max-w-4xl">
+      <h1 class="text-5xl md:text-7xl font-extrabold mb-6 bg-gradient-to-r from-blue-400 via-cyan-400 to-blue-500 bg-clip-text text-transparent">
+        Student Business Club
+      </h1>
+      <p class="text-xl md:text-2xl mb-10 text-gray-300">Handmade with love by students • Supporting real entrepreneurship</p>
+      <a href="#order" class="inline-block px-10 py-5 bg-blue-600 text-xl font-bold rounded-full hover:bg-blue-700 transform hover:scale-110 transition duration-300 shadow-2xl">
+        Order Products Now
+      </a>
+    </div>
+  </section>
+
+  <!-- About -->
+  <section id="about" class="min-h-screen flex items-center justify-center p-8 fade-section">
+    <div class="max-w-4xl text-center">
+      <h2 class="text-5xl font-bold mb-8 text-blue-400">About Our Club</h2>
+      <p class="text-xl leading-relaxed text-gray-300">
+        We are a student-run business club that teaches entrepreneurship by making and selling real products: 
+        <strong>liquid soap</strong>, <strong>fresh bread</strong>, and more. Every order helps students learn real business skills!
+      </p>
+    </div>
+  </section>
+
+  <!-- Order Form -->
   <section id="order" class="min-h-screen flex flex-col items-center justify-center p-6 fade-section pt-32">
     <h2 class="text-5xl font-bold mb-12 text-blue-400">Place Your Order</h2>
+
     <form id="orderForm" class="w-full max-w-3xl bg-gray-800 p-10 rounded-3xl shadow-2xl border border-gray-700 space-y-8">
-      <!-- All your inputs exactly the same -->
+      <!-- Customer Info -->
       <div class="grid md:grid-cols-3 gap-6">
         <input type="text" name="name" placeholder="Your Full Name" class="p-4 rounded-xl bg-gray-700 text-lg" required />
         <input type="email" name="email" placeholder="Email Address" class="p-4 rounded-xl bg-gray-700 text-lg" required />
         <input type="tel" name="tel" placeholder="Phone Number (e.g. 078...)" class="p-4 rounded-xl bg-gray-700 text-lg" required />
       </div>
-      <!-- Product checkboxes and options – unchanged -->
-      <!-- ... (same as previous version) ... -->
+
+      <!-- Products -->
+      <div class="space-y-8">
+        <p class="text-2xl font-bold text-blue-300">Select Products & Quantity</p>
+
+        <!-- Liquid Soap -->
+        <div class="bg-gray-700 p-8 rounded-2xl border border-blue-500">
+          <h3 class="text-2xl font-bold text-blue-300 mb-6">Liquid Soap</h3>
+          <div class="space-y-6">
+            <label class="flex items-center justify-between text-lg">
+              <div class="flex items-center space-x-4">
+                <input type="checkbox" id="soap3L" class="w-6 h-6">
+                <span>3 Litres</span>
+              </div>
+              <div class="flex items-center space-x-3">
+                <span class="font-bold text-green-400">2,500 RWF</span>
+                <input type="number" id="soap3L_qty" min="1" placeholder="Qty" class="hidden w-24 p-3 rounded bg-gray-600 text-center" />
+              </div>
+            </label>
+
+            <label class="flex items-center justify-between text-lg">
+              <div class="flex items-center space-x-4">
+                <input type="checkbox" id="soap5L" class="w-6 h-6">
+                <span>5 Litres</span>
+              </div>
+              <div class="flex items-center space-x-3">
+                <span class="font-bold text-green-400">4,000 RWF</span>
+                <input type="number" id="soap5L_qty" min="1" placeholder="Qty" class="hidden w-24 p-3 rounded bg-gray-600 text-center" />
+              </div>
+            </label>
+          </div>
+        </div>
+
+        <!-- Fresh Bread -->
+        <div class="bg-gray-700 p-8 rounded-2xl border border-blue-500">
+          <h3 class="text-2xl font-bold text-blue-300 mb-6">Fresh Bread</h3>
+          <div class="space-y-6">
+            <label class="flex items-center justify-between text-lg">
+              <div class="flex items-center space-x-4">
+                <input type="checkbox" id="bread10" class="w-6 h-6">
+                <span>10-piece pack (small)</span>
+              </div>
+              <div class="flex items-center space-x-3">
+                <span class="font-bold text-green-400">1,500 RWF</span>
+                <input type="number" id="bread10_qty" min="1" placeholder="Qty" class="hidden w-24 p-3 rounded bg-gray-600 text-center" />
+              </div>
+            </label>
+
+            <label class="flex items-center justify-between text-lg">
+              <div class="flex items-center space-x-4">
+                <input type="checkbox" id="bread6" class="w-6 h-6">
+                <span>6-piece pack (large)</span>
+              </div>
+              <div class="flex items-center space-x-3">
+                <span class="font-bold text-green-400">2,000 RWF</span>
+                <input type="number" id="bread6_qty" min="1" placeholder="Qty" class="hidden w-24 p-3 rounded bg-gray-600 text-center" />
+              </div>
+            </label>
+          </div>
+        </div>
+      </div>
+
       <button type="button" id="confirmOrderBtn" class="w-full py-5 bg-gradient-to-r from-blue-600 to-cyan-600 text-2xl font-bold rounded-xl hover:from-blue-700 hover:to-cyan-700 transform hover:scale-105 transition duration-300 shadow-xl">
         Review My Order
       </button>
     </form>
 
-    <!-- Modal – unchanged -->
+    <!-- Modal -->
     <div id="orderModal" class="modal">
       <div class="modal-content text-gray-200">
         <h3 class="text-3xl font-bold mb-6 text-blue-400 text-center">Confirm Your Order</h3>
@@ -56,44 +149,71 @@
   </section>
 
   <script>
-    // === ALL YOUR EXISTING JS (fade, toggles, etc.) remains the same ===
-    // Only the submission part is updated below
+    // Show quantity when checkbox is checked
+    ['soap3L', 'soap5L', 'bread10', 'bread6'].forEach(id => {
+      document.getElementById(id).addEventListener('change', function () {
+        const qtyInput = document.getElementById(id + '_qty');
+        qtyInput.classList.toggle('hidden', !this.checked);
+        if (this.checked) qtyInput.focus();
+      });
+    });
 
     const MAKE_WEBHOOK = "https://hook.us2.make.com/ygz8rqdikqtsgsrpe43pqy5249vnvnyj";
 
-    document.getElementById('submitOrder').addEventListener('click', async () => {
-      const btn = document.getElementById('submitOrder');
-      btn.classList.add('loading');
-      btn.innerHTML = '<span>Sending...</span>';
-
+    // Review Order
+    document.getElementById('confirmOrderBtn').addEventListener('click', () => {
       const name = document.querySelector('[name="name"]').value.trim();
       const email = document.querySelector('[name="email"]').value.trim();
       const phone = document.querySelector('[name="tel"]').value.trim();
+      if (!name || !email || !phone) return alert("Please fill in your name, email, and phone.");
 
-      // Individual quantities (0 if not selected)
-      const soap_3L = document.querySelector('input[name="soapSize"]:checked')?.value === '3L' 
-        ? parseInt(document.getElementById('soapCount3L').value) || 0 : 0;
-      const soap_5L = document.querySelector('input[name="soapSize"]:checked')?.value === '5L' 
-        ? parseInt(document.getElementById('soapCount5L').value) || 0 : 0;
-      const bread_10pack = document.querySelector('input[name="breadSize"]:checked')?.value === '10pack' 
-        ? parseInt(document.getElementById('breadCount10').value) || 0 : 0;
-      const bread_6pack = document.querySelector('input[name="breadSize"]:checked')?.value === '6pack' 
-        ? parseInt(document.getElementById('breadCount6').value) || 0 : 0;
+      const s3 = parseInt(document.getElementById('soap3L_qty').value) || 0;
+      const s5 = parseInt(document.getElementById('soap5L_qty').value) || 0;
+      const b10 = parseInt(document.getElementById('bread10_qty').value) || 0;
+      const b6 = parseInt(document.getElementById('bread6_qty').value) || 0;
 
-      const total = (soap_3L * 2500) + (soap_5L * 4000) + (bread_10pack * 1500) + (bread_6pack * 2000);
-      const submitted_at = new Date().toLocaleString('en-GB', { timeZone: 'Africa/Kigali' });
+      if (s3 + s5 + b10 + b6 === 0) return alert("Please select at least one product.");
 
-      // THIS IS THE PAYLOAD Make.com will receive – perfect for your email template
+      const items = [];
+      let total = 0;
+      if (s3 > 0) { items.push(`Liquid Soap 3L × ${s3} = ${(s3*2500).toLocaleString()} RWF`); total += s3*2500; }
+      if (s5 > 0) { items.push(`Liquid Soap 5L × ${s5} = ${(s5*4000).toLocaleString()} RWF`); total += s5*4000; }
+      if (b10 > 0) { items.push(`Bread 10-piece × ${b10} = ${(b10*1500).toLocaleString()} RWF`); total += b10*1500; }
+      if (b6 > 0) { items.push(`Bread 6-piece large × ${b6} = ${(b6*2000).toLocaleString()} RWF`); total += b6*2000; }
+
+      document.getElementById('orderSummary').innerHTML = `
+        <p><strong>Name:</strong> ${name}</p>
+        <p><strong>Email:</strong> ${email}</p>
+        <p><strong>Phone:</strong> ${phone}</p>
+        <hr class="my-4 border-gray-500">
+        <p class="text-2xl font-bold text-blue-300 mb-3">Your Order:</p>
+        ${items.map(i => `<p class="text-lg">• ${i}</p>`).join('')}
+      `;
+      document.getElementById('totalPrice').textContent = `Total: ${total.toLocaleString()} RWF`;
+      document.getElementById('orderModal').style.display = 'flex';
+    });
+
+    // Submit to Make.com
+    document.getElementById('submitOrder').addEventListener('click', async () => {
+      const btn = document.getElementById('submitOrder');
+      btn.classList.add('loading');
+      btn.innerHTML = 'Sending...';
+
       const payload = {
-        name,
-        email,
-        phone,
-        soap_3L,        // e.g. 2 or 0
-        soap_5L,        // e.g. 0 or 3
-        bread_10pack,   // e.g. 5 or 0
-        bread_6pack,    // e.g. 0 or 1
-        total: total + " RWF",
-        submitted_at
+        name: document.querySelector('[name="name"]').value.trim(),
+        email: document.querySelector('[name="email"]').value.trim(),
+        phone: document.querySelector('[name="tel"]').value.trim(),
+        soap_3L: parseInt(document.getElementById('soap3L_qty').value) || 0,
+        soap_5L: parseInt(document.getElementById('soap5L_qty').value) || 0,
+        bread_10pack: parseInt(document.getElementById('bread10_qty').value) || 0,
+        bread_6pack: parseInt(document.getElementById('bread6_qty').value) || 0,
+        total: (
+          (parseInt(document.getElementById('soap3L_qty').value) || 0) * 2500 +
+          (parseInt(document.getElementById('soap5L_qty').value) || 0) * 4000 +
+          (parseInt(document.getElementById('bread10_qty').value) || 0) * 1500 +
+          (parseInt(document.getElementById('bread6_qty').value) || 0) * 2000
+        ) + " RWF",
+        submitted_at: new Date().toLocaleString('en-GB', { timeZone: 'Africa/Kigali' })
       };
 
       try {
@@ -102,25 +222,30 @@
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(payload)
         });
-
         if (res.ok) {
-          alert("Order sent successfully! We will contact you very soon.");
+          alert("Order sent successfully! We will contact you soon.");
           document.getElementById('orderModal').style.display = 'none';
           document.getElementById('orderForm').reset();
-          document.querySelectorAll('#soapOptions, #breadOptions').forEach(el => el.classList.add('hidden'));
+          document.querySelectorAll('input[type="number"]').forEach(i => i.classList.add('hidden'));
+          document.querySelectorAll('input[type="checkbox"]').forEach(c => c.checked = false);
         } else {
-          alert("Failed to send. Please check your connection and try again.");
+          alert("Failed to send. Please try again.");
         }
       } catch (err) {
-        alert("No internet connection. Please try again when you're online.");
+        alert("No internet connection. Try again when online.");
       } finally {
         btn.classList.remove('loading');
         btn.innerHTML = 'Confirm & Send Order';
       }
     });
 
-    // Keep all your existing confirmOrderBtn logic for the modal summary (unchanged)
-    // ... (same as previous version)
+    document.getElementById('cancelOrder').addEventListener('click', () => {
+      document.getElementById('orderModal').style.display = 'none';
+    });
+
+    // Fade-in on scroll
+    new IntersectionObserver(entries => entries.forEach(entry => entry.isIntersecting && entry.target.classList.add('visible')), { threshold: 0.1 })
+      .observe(...document.querySelectorAll('.fade-section'));
   </script>
 </body>
 </html>
